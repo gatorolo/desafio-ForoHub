@@ -16,21 +16,6 @@ public class RespuestaTopicValid implements ValidarRespuestaCreada {
     @Autowired
     private TopicRepo topicRepo;
 
-
-   /* @Override
-    public void validate(CrearRespuestaDTO data) {
-        var topicoExiste = topicRepo.existsById(data.topicoId());
-
-        if(!topicoExiste) {
-            throw new ValidationException("Éste tópico no existe");
-        }
-        var topicoAbierto = topicRepo.findById(data.topicoId());
-
-        if(topicoAbierto != Estado.OPEN) {
-            throw new ValidationException("Éste topico no existe");
-        }
-    }*/
-
     @Override
     public void validate(CrearRespuestaDTO data) {
 

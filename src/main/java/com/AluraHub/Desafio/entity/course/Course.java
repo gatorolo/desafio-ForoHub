@@ -2,13 +2,11 @@ package com.AluraHub.Desafio.entity.course;
 
 import com.AluraHub.Desafio.entity.course.dto.ActualizarCursoDTO;
 import com.AluraHub.Desafio.entity.course.dto.CrearCursoDTO;
+import com.AluraHub.Desafio.security.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cursos")
@@ -22,6 +20,11 @@ public class Course {
     @Enumerated(EnumType.STRING)
     private Category category;
     private Boolean active;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creador_id")
+    private User creador;
 
     public Course(CrearCursoDTO crearCursoDTO) {
         this.name = crearCursoDTO.name();
@@ -38,6 +41,10 @@ public class Course {
             if(actualizarCursoDTO.active() != null) {
                 this.active = actualizarCursoDTO.active();
             }
+    }
+
+    public void eliminarCurso() {
+        this.active = false;
     }
 }
 

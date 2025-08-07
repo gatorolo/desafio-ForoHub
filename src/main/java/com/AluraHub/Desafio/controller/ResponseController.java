@@ -10,17 +10,21 @@ import com.AluraHub.Desafio.entity.response.validations.update.ValidarRespuestaA
 import com.AluraHub.Desafio.entity.topic.Estado;
 import com.AluraHub.Desafio.entity.topic.Topic;
 import com.AluraHub.Desafio.entity.topic.repository.TopicRepo;
-import com.AluraHub.Desafio.entity.user.User;
 import com.AluraHub.Desafio.entity.user.repository.UserRepo;
+import com.AluraHub.Desafio.security.user.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -39,37 +43,34 @@ public class ResponseController {
     private ResponseRepo responseRepo;
 
     @Autowired
-    List<ValidarRespuestaCreada> crearValidadores;
-
-    @Autowired
     List<ValidarRespuestaActualizada> actualizarValidadores;
 
 
     @PostMapping
     @Transactional
     public ResponseEntity<DetalleRespuestaDTO> crearRespuesta(@RequestBody @Valid CrearRespuestaDTO crearRespuestaDTO,
+                                                              @AuthenticationPrincipal User usuario,
                                                               UriComponentsBuilder uriBuilder) {
-        crearValidadores.forEach(v -> v.validate(crearRespuestaDTO));
+        Topic topico = topicRepo.findById(crearRespuestaDTO.topicoId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tópico no encontrado"));
 
-        User usuario = userRepo.getReferenceById(crearRespuestaDTO.usuarioId());
-        Topic topico = topicRepo.findById(crearRespuestaDTO.topicoId()).get();
-
-        var respuesta = new Response(crearRespuestaDTO, usuario, topico);
+        Response respuesta = new Response(crearRespuestaDTO, usuario, topico);
         responseRepo.save(respuesta);
 
-         var uri = uriBuilder.path("/respuesta/{id}").buildAndExpand(respuesta.getId()).toUri();
-         return ResponseEntity.created(uri).body(new DetalleRespuestaDTO(respuesta));
+        var uri = uriBuilder.path("/respuesta/{id}").buildAndExpand(respuesta.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DetalleRespuestaDTO(respuesta));
     }
 
-    @GetMapping("/topico/{id}")
+
+    @GetMapping("/topico/{topicoId}")
     public ResponseEntity<Page<DetalleRespuestaDTO>> leerRespuestaTopico(@PageableDefault(size = 5,sort = {"ultimaActualizacion"},
                                direction = Sort.Direction.ASC)Pageable pageable, @PathVariable Long topicoId) {
         var pagina = responseRepo.findAllByTopicoId(topicoId,pageable).map(DetalleRespuestaDTO::new);
                 return ResponseEntity.ok(pagina);
     }
 
-    @GetMapping("/usuario/{nombreUsuario}")
-    public ResponseEntity<Page<DetalleRespuestaDTO>> leerRespuestasUs(@PageableDefault(size = 5, sort = {"ultimaActualizacion"},
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<Page<DetalleRespuestaDTO>> leerRespuestasUsuario(@PageableDefault(size = 5, sort = {"ultimaActualizacion"},
     direction = Sort.Direction.ASC)Pageable pageable, @PathVariable Long usuarioId) {
         var pagina = responseRepo.findAllByUsuarioId(usuarioId, pageable).map(DetalleRespuestaDTO::new);
         return ResponseEntity.ok(pagina);

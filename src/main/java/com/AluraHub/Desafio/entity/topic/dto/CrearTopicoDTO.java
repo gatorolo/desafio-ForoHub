@@ -10,8 +10,6 @@ public record CrearTopicoDTO(
         @NotBlank
         String mensaje,
         @NotNull
-        Long usuarioId,
-        @NotNull
         Long cursoId
 ) {
 }

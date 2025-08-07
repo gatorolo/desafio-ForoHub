@@ -1,5 +1,7 @@
 package com.AluraHub.Desafio.controller;
 
+import org.springframework.security.core.Authentication;
+import com.AluraHub.Desafio.security.user.User;
 import com.AluraHub.Desafio.entity.course.Course;
 import com.AluraHub.Desafio.entity.course.dto.ActualizarCursoDTO;
 import com.AluraHub.Desafio.entity.course.dto.CrearCursoDTO;
@@ -9,59 +11,61 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/cursos")
+@RequestMapping("api/v1/cursos")
 public class CourseController {
 
     @Autowired
-    private CourseRepository courseRepository;
+    private CourseRepository courseRepo;
+
 
     @PostMapping
     @Transactional
-    //@Operation(summary = "Registrar un nuevo curso")
-    public ResponseEntity<DetalleCursoDTO> crearTopico(@RequestBody @Valid CrearCursoDTO crearCursoDTO,
-                                                       UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DetalleCursoDTO> crearCurso(@RequestBody @Valid CrearCursoDTO crearCursoDTO,
+                                                      UriComponentsBuilder uriBuilder,
+                                                      Authentication authentication) {
+        User usuario = (User) authentication.getPrincipal();
         Course course = new Course(crearCursoDTO);
-        courseRepository.save(course);
-        var uri = uriBuilder.path("/cursos/{i}").buildAndExpand(course.getId()).toUri();
+        course.setCreador(usuario);
+
+        courseRepo.save(course);
+
+        var uri = uriBuilder.path("/api/v1/cursos/{id}").buildAndExpand(course.getId()).toUri();
         return ResponseEntity.created(uri).body(new DetalleCursoDTO(course));
     }
 
+
     @GetMapping("/all")
     public ResponseEntity<Page<DetalleCursoDTO>> listarCursos(Pageable pageable) {
-        var paginas = courseRepository.findAll(pageable).map(DetalleCursoDTO.class);
+        var paginas = courseRepo.findAll(pageable).map(DetalleCursoDTO::new);
         return ResponseEntity.ok(paginas);
     }
 
     @GetMapping
     public ResponseEntity<Page<Course>> listarCursosActivos(Pageable pageable) {
-        var pagina = courseRepository.findAllByActivoTrue(pageable);
+        var pagina = courseRepo.findAllByActiveTrue(pageable);
         return ResponseEntity.ok(pagina);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<DetalleCursoDTO> listarUnCurso(@PathVariable Long id) {
-        Course curso = (Course) courseRepository.getReferenceById(id);
-        var datosDelCurso = new DetalleCursoDTO(
-                curso.getId(),
-                curso.getName(),
-                curso.getCategory(),
-                curso.getActive()
-        );
-        return ResponseEntity.ok(datosDelCurso);
+        Course curso = courseRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso no encontrado"));
+        return ResponseEntity.ok(new DetalleCursoDTO(curso));
     }
 
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<DetalleCursoDTO> actualizarCurso(@RequestBody ActualizarCursoDTO actualizarCursoDTO ,@PathVariable long id) {
-        Course course = (Course) courseRepository.getReferenceById(id);
+        Course course = (Course) courseRepo.getReferenceById(id);
 
         course.actualizarCurso(actualizarCursoDTO);
 
@@ -77,8 +81,9 @@ public class CourseController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> eliminarCurso(@PathVariable long id) {
-        Course curso = (Course) courseRepository.getReferenceById(id);
+        Course curso = (Course) courseRepo.getReferenceById(id);
         curso.eliminarCurso();
         return ResponseEntity.noContent().build();
     }
+
 }

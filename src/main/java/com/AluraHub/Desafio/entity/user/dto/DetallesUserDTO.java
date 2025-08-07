@@ -1,7 +1,6 @@
 package com.AluraHub.Desafio.entity.user.dto;
 
-import com.AluraHub.Desafio.entity.user.Role;
-import com.AluraHub.Desafio.entity.user.User;
+import com.AluraHub.Desafio.security.user.User;
 
 public record DetallesUserDTO(
 
@@ -20,8 +19,10 @@ public record DetallesUserDTO(
                 usuario.getFirstname(),
                 usuario.getLastname(),
                 usuario.getCountry(),
-                usuario.getEnabled()
+                usuario.isEnabled()
         );
-    }
 
+    }
 }
+
+

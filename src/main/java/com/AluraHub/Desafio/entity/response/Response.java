@@ -53,7 +53,14 @@ public class Response {
         this.topico = topico;
     }
 
-    public Response(@Valid CrearRespuestaDTO crearRespuestaDTO, com.AluraHub.Desafio.entity.user.User usuario, Topic topico) {
+    public Response(CrearRespuestaDTO dto, User usuario, Topic topico) {
+        this.mensaje = dto.mensaje();
+        this.usuario = usuario;
+        this.topico = topico;
+        this.fechaCreacion = LocalDateTime.now();
+        this.ultimaActualizacion = LocalDateTime.now();
+        this.solucion = false;
+        this.borrado = false;
     }
 
     public void actualizarRespuesta(ActualizarRespuestaDTO actualizarRespuestaDTO) {

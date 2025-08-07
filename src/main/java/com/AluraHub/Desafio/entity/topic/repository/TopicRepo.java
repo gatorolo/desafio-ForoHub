@@ -10,12 +10,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TopicRepo extends JpaRepository<Topic, Long> {
 
-    Page<Topic> findAll(Pageable pageable);
-
     Page<Topic> findAllByEstadoIsNot(Estado estado, Pageable pageable);
 
-    Boolean existByTituloAndMensaje(String titulo, String mensaje);
+    boolean existsByTituloAndMensaje(String titulo, String mensaje);
 
     Topic findByTitulo(String titulo);
 
+    boolean existsByTitulo(String titulo);
+
+    boolean existsById(Long id);
 }

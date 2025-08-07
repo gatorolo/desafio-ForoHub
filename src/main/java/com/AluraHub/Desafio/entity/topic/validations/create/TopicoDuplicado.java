@@ -13,7 +13,7 @@ public class TopicoDuplicado implements ValidarTopicoCreado {
     private TopicRepo topicRepo;
 
     public void validate(CrearTopicoDTO data) {
-        var topicoDuplicado = topicRepo.existByTituloAndMensaje(data.titulo(), data.mensaje());
+        var topicoDuplicado = topicRepo.existsByTituloAndMensaje(data.titulo(), data.mensaje());
         if (topicoDuplicado) {
             throw new ValidationException("Éste tópico ya existe. Revisa /Tópicos/" + topicRepo.findByTitulo(data.titulo()).getId());
         }

@@ -8,8 +8,6 @@ public record CrearRespuestaDTO(
         @NotBlank
         String mensaje,
         @NotNull
-        Long usuarioId,
-        @NotNull
         long topicoId
 ) {
 

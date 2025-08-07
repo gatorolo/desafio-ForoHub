@@ -1,6 +1,6 @@
 package com.AluraHub.Desafio.security.config;
 
-import com.AluraHub.Desafio.security.user.UserRepo;
+import com.AluraHub.Desafio.security.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,14 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
-public class aplicationConfig {
+public class applicationConfig {
 
-    private final UserRepo userRepo;
+    private final UserRepository userRepo;
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-      return config.getAuthenticationManager();
-    }
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();

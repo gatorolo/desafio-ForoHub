@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UsuarioDuplicado implements ValidarUsuario {
+public class UsuarioDuplicado implements ValidarCrearUsuario {
 
     @Autowired
     private UserRepo repo;

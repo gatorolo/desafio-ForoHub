@@ -15,4 +15,5 @@ public record CrearUserDTO(
         @NotBlank
         String country
 ) {
+
 }

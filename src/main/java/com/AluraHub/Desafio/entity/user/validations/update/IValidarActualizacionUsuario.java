@@ -1,17 +1,14 @@
 package com.AluraHub.Desafio.entity.user.validations.update;
 
 import com.AluraHub.Desafio.entity.user.dto.ActualizarUserDTO;
-import com.AluraHub.Desafio.entity.user.repository.UserRepo;
+import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidarActualizacionUsuario implements IValidarActualizacionUsuario {
+public interface IValidarActualizacionUsuario  {
 
-    @Autowired
-    private UserRepo repo;
+        void validate(ActualizarUserDTO data);
 
-    public void validate(ActualizarUserDTO data) {
 
-    }
 }

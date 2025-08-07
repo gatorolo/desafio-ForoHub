@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "topicos")
 @Entity(name = "topico")
-@EqualsAndHashCode(of = "id")
 public class Topic {
 
     @Id
@@ -51,7 +50,7 @@ public class Topic {
         this.curso = curso;
     }
 
-    public void actualizarTopicoConCurso(ActualizarTopicoDTO actualizarTopicoDTO) {
+    public void actualizarTopicoConCurso(ActualizarTopicoDTO actualizarTopicoDTO, Course curso) {
         if (actualizarTopicoDTO.titulo() != null) {
             this.titulo = actualizarTopicoDTO.titulo();
         }
@@ -82,10 +81,6 @@ public class Topic {
 
     public void eliminarTopico(){
         this.estado = Estado.DELETED;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
     }
 
 }
