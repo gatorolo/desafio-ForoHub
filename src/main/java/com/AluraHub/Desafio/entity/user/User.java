@@ -1,4 +1,4 @@
-package com.AluraHub.Desafio.security.user;
+package com.AluraHub.Desafio.entity.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

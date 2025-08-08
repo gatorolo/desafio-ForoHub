@@ -2,7 +2,7 @@ package com.AluraHub.Desafio.entity.course;
 
 import com.AluraHub.Desafio.entity.course.dto.ActualizarCursoDTO;
 import com.AluraHub.Desafio.entity.course.dto.CrearCursoDTO;
-import com.AluraHub.Desafio.security.user.User;
+import com.AluraHub.Desafio.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,6 +1,6 @@
 package com.AluraHub.Desafio.entity.user.dto;
 
-import com.AluraHub.Desafio.security.user.User;
+import com.AluraHub.Desafio.entity.user.User;
 
 public record DetallesUserDTO(
 

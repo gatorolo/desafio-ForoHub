@@ -2,9 +2,8 @@ package com.AluraHub.Desafio.security.utils;
 
 import com.AluraHub.Desafio.entity.user.repository.UserRepo;
 import com.AluraHub.Desafio.security.jwt.JwtService;
-import com.AluraHub.Desafio.security.user.Role;
-import com.AluraHub.Desafio.security.user.User;
-import com.AluraHub.Desafio.security.user.UserRepository;
+import com.AluraHub.Desafio.entity.user.Role;
+import com.AluraHub.Desafio.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,6 +1,6 @@
 package com.AluraHub.Desafio.entity.user.repository;
 
-import com.AluraHub.Desafio.security.user.User;
+import com.AluraHub.Desafio.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +18,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
     Page<User> findAll(Pageable pageable);
     User getReferenceByUsername(String username);
     Boolean existsByUsername(String username);
+//    Optional<User> findByUsername(String username);
+   // boolean existsByUsername(String username);
+   // Page<User> findAllByEnabledTrue(Pageable pageable);
+
 }

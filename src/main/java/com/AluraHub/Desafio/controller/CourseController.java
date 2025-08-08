@@ -1,7 +1,7 @@
 package com.AluraHub.Desafio.controller;
 
 import org.springframework.security.core.Authentication;
-import com.AluraHub.Desafio.security.user.User;
+import com.AluraHub.Desafio.entity.user.User;
 import com.AluraHub.Desafio.entity.course.Course;
 import com.AluraHub.Desafio.entity.course.dto.ActualizarCursoDTO;
 import com.AluraHub.Desafio.entity.course.dto.CrearCursoDTO;

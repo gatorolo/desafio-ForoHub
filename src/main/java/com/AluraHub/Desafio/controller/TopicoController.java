@@ -14,7 +14,7 @@ import com.AluraHub.Desafio.entity.topic.repository.TopicRepo;
 import com.AluraHub.Desafio.entity.topic.validations.create.ValidarTopicoCreado;
 import com.AluraHub.Desafio.entity.topic.validations.update.ValidarTopicoActualizado;
 import com.AluraHub.Desafio.entity.user.repository.UserRepo;
-import com.AluraHub.Desafio.security.user.User;
+import com.AluraHub.Desafio.entity.user.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,14 +33,14 @@ import java.util.List;
 
 @SuppressWarnings("ALL")
 @RestController
-@RequestMapping("api/v1/topicos")
+@RequestMapping("/api/v1/topicos")
 public class TopicoController {
 
     @Autowired
     private TopicRepo topicRepo;
 
     @Autowired
-    private UserRepo userRepository;
+    private UserRepo userRepo;
 
     @Autowired
     private CourseRepository cursoRepo;

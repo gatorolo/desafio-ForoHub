@@ -3,9 +3,8 @@ package com.AluraHub.Desafio.entity.response;
 import com.AluraHub.Desafio.entity.response.dto.CrearRespuestaDTO;
 import com.AluraHub.Desafio.entity.response.dto.ActualizarRespuestaDTO;
 import com.AluraHub.Desafio.entity.topic.Topic;
-import com.AluraHub.Desafio.security.user.User;
+import com.AluraHub.Desafio.entity.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.*;
 
 import java.time.LocalDateTime;
